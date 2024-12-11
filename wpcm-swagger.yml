@@ -1,0 +1,214 @@
+openapi: 3.0.0
+info:
+  title: API per Gestione Utenti, Prodotti e Ordini
+  description: Documentazione aggiornata delle API.
+  version: 1.0.0
+servers:
+  - url: https://example.com/ludix/wpapi
+    description: Server di produzione
+paths:
+  /check:
+    post:
+      summary: Verifica l'API
+      description: Un semplice endpoint di test per verificare che l'API sia attiva.
+      responses:
+        '200':
+          description: API funzionante
+          content:
+            application/json:
+              schema:
+                type: string
+                example: OK
+
+  /customer:
+    post:
+      summary: Gestione clienti
+      description: Inserisce o aggiorna un cliente in base alla mail.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mail:
+                  type: string
+                  description: Email del cliente.
+                identificativo:
+                  type: string
+                  description: Codice identificativo del cliente.
+                ragione_sociale:
+                  type: string
+                  description: Ragione sociale del cliente.
+                c_f:
+                  type: string
+                  description: Codice fiscale del cliente.
+                indirizzo:
+                  type: string
+                cap:
+                  type: string
+                citta:
+                  type: string
+                provincia:
+                  type: string
+                stato:
+                  type: string
+                recapito:
+                  type: string
+                pass:
+                  type: string
+                accetto:
+                  type: boolean
+                accetto_2:
+                  type: boolean
+                desidero:
+                  type: boolean
+              required:
+                - mail
+                - identificativo
+      responses:
+        '200':
+          description: Cliente gestito con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+        '400':
+          description: Dati non validi
+        '500':
+          description: Errore del server
+
+  /product:
+    post:
+      summary: Gestione prodotti
+      description: Inserisce o aggiorna un prodotto e il suo prezzo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pn:
+                  type: string
+                  description: Part number del prodotto.
+                ean:
+                  type: string
+                  description: Codice EAN del prodotto.
+                nome:
+                  type: string
+                descrizione:
+                  type: string
+                prezzo:
+                  type: number
+                  format: float
+                variazione_di:
+                  type: string
+                disponibile:
+                  type: boolean
+                file_immagine:
+                  type: string
+              required:
+                - pn
+                - nome
+      responses:
+        '200':
+          description: Prodotto gestito con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+        '400':
+          description: Dati non validi
+        '500':
+          description: Errore del server
+
+  /order:
+    post:
+      summary: Inserimento ordini
+      description: Inserisce un ordine, controlla la presenza dei prodotti associati e li aggiorna se necessario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                num_ordine:
+                  type: string
+                  description: Numero ordine.
+                mail:
+                  type: string
+                  description: Email del cliente.
+                metodo_pagamento:
+                  type: string
+                metodo_spedizione:
+                  type: string
+                spese_spedizione:
+                  type: number
+                  format: float
+                nome_spedizione:
+                  type: string
+                ragione_sociale_spedizione:
+                  type: string
+                indirizzo_spedizione:
+                  type: string
+                cap_spedizione:
+                  type: string
+                citta_spedizione:
+                  type: string
+                provincia_spedizione:
+                  type: string
+                stato_spedizione:
+                  type: string
+                recapito_spedizione:
+                  type: string
+                totale:
+                  type: number
+                  format: float
+                eccesso_cdd:
+                  type: number
+                prodotti:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      sku:
+                        type: string
+                      nome:
+                        type: string
+                      qta:
+                        type: integer
+                      prezzo:
+                        type: number
+                        format: float
+                      imposta:
+                        type: number
+                        format: float
+              required:
+                - num_ordine
+                - mail
+                - prodotti
+      responses:
+        '200':
+          description: Ordine gestito con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+        '400':
+          description: Dati non validi
+        '500':
+          description: Errore del server
