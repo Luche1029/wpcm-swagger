@@ -4,7 +4,7 @@ info:
   description: Documentazione aggiornata delle API.
   version: 1.0.0
 servers:
-  - url: https://example.com/ludix/wpapi
+  - url: https://microtech.store/ludix/wpapi
     description: Server di produzione
 paths:
   /check:
